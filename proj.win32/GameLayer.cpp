@@ -5,7 +5,7 @@
 using namespace cocos2d::experimental;
 
 GameLayer* GameLayer::_instance = nullptr;
-int isMove = 0; // ´óÓÚ0Ê±£¬±íÊ¾ÒÆ¶¯ÁËµ±Ç°µÄÊı×Ö²¼¾Ö£¬Òò´ËĞèÒª×Ô¶¯±£´æÉÏÒ»´ÎµÄ²¼¾Ö½á¹û, ÔÚÒÆ¶¯Íê±ÏºóÔÚRandGenGridÖĞ½øĞĞ×Ô¶¯Çå0
+int isMove = 0; // å¤§äº0æ—¶ï¼Œè¡¨ç¤ºç§»åŠ¨äº†å½“å‰çš„æ•°å­—å¸ƒå±€ï¼Œå› æ­¤éœ€è¦è‡ªåŠ¨ä¿å­˜ä¸Šä¸€æ¬¡çš„å¸ƒå±€ç»“æœ, åœ¨ç§»åŠ¨å®Œæ¯•ååœ¨RandGenGridä¸­è¿›è¡Œè‡ªåŠ¨æ¸…0
 GameLayer* GameLayer::getInstance()
 {
     if (_instance == nullptr)
@@ -13,7 +13,7 @@ GameLayer* GameLayer::getInstance()
     return _instance;
 }
 
-// ³õÊ¼»¯
+// åˆå§‹åŒ–
 bool GameLayer::init()
 {
     do {
@@ -21,7 +21,7 @@ bool GameLayer::init()
 
         this->setContentSize(Size(300, 300));
         this->setPosition(10, 65);
-        // ³õÊ¼»¯ ±³¾°
+        // åˆå§‹åŒ– èƒŒæ™¯
         initBg();
     } while (0);
     return true;
@@ -46,10 +46,10 @@ void GameLayer::initBg()
             this->addChild(cellBg);
         }
     }
-    // ¼ÓÔØ¸ñ×Ó
+    // åŠ è½½æ ¼å­
     loadGrids(2);
 }
-// ³õÊ¼»¯¸ñ×Ó
+// åˆå§‹åŒ–æ ¼å­
 void GameLayer::initGrids()
 {
     for (int row = 0; row < 4; row++)
@@ -64,12 +64,12 @@ void GameLayer::initGrids()
     randGenGrid();
 }
 
-// ¼ÓÔØ¸ñ×Ó·½·¨
+// åŠ è½½æ ¼å­æ–¹æ³•
 void GameLayer::loadGrids(int type)
 {
     _isOver = false;
     auto f = UserDefault::getInstance();
-    // Èç¹ûXMLÎÄ¼ş²»´æÔÚ»òÕßÖ¸¶¨ÀàĞÍµÄÓÎÏ·Êı¾İ²»´æÔÚ£¬¾Í³õÊ¼»¯Íø¸ñ
+    // å¦‚æœXMLæ–‡ä»¶ä¸å­˜åœ¨æˆ–è€…æŒ‡å®šç±»å‹çš„æ¸¸æˆæ•°æ®ä¸å­˜åœ¨ï¼Œå°±åˆå§‹åŒ–ç½‘æ ¼
     if (!f->isXMLFileExist() || !f->getBoolForKey(Value(type).asString().append("exits").c_str(), false))
         return initGrids();
 
@@ -78,7 +78,7 @@ void GameLayer::loadGrids(int type)
     {
         for (int j = 0; j < 4; j++)
         {
-            // ´ÓUserDefaultÖĞ»ñÈ¡Ö¸¶¨Î»ÖÃµÄÊıÖµ
+            // ä»UserDefaultä¸­è·å–æŒ‡å®šä½ç½®çš„æ•°å€¼
             value = f->getIntegerForKey(Value(type * 3).asString().append(Value(100 + i * 4 + j).asString()).c_str());
             if (value == -1)
                 _grids[i][j] = nullptr;
@@ -88,13 +88,13 @@ void GameLayer::loadGrids(int type)
                 _grids[i][j]->initValue(value, i, j);
                 this->addChild(_grids[i][j]);
             }
-            // ¼ÇÂ¼ÉÏÒ»¸öÍø¸ñµÄÊıÖµ
+            // è®°å½•ä¸Šä¸€ä¸ªç½‘æ ¼çš„æ•°å€¼
             _lastGrids[i][j] = f->getIntegerForKey(Value(type * 3).asString().append(Value(i * 4 + j).asString()).c_str());
         }
     }
 }
 
-//ÇåÀí¸ñ×Ó
+//æ¸…ç†æ ¼å­
 void GameLayer::clearGrids()
 {
     for (int row = 0; row < 4; row++)
@@ -108,8 +108,8 @@ void GameLayer::clearGrids()
     }
 }
 
-#define EMPTY -1 // ±íÊ¾lastGridsÖĞ±£´æµÄÊÇÉÏ´ÎµÄ²¼¾Ö
-#define DOUBLE_EMPTY -2 // ±íÊ¾_lastGridsÖĞ±£´æµÄÊÇ³õÊ¼»¯µÄ½á¹û
+#define EMPTY -1 // è¡¨ç¤ºlastGridsä¸­ä¿å­˜çš„æ˜¯ä¸Šæ¬¡çš„å¸ƒå±€
+#define DOUBLE_EMPTY -2 // è¡¨ç¤º_lastGridsä¸­ä¿å­˜çš„æ˜¯åˆå§‹åŒ–çš„ç»“æœ
 void GameLayer::clearLastGrids()
 {
     for (int row = 0; row < 4; row++)
@@ -121,7 +121,7 @@ void GameLayer::clearLastGrids()
     }
 }
 
-// ÖØĞÂ¿ªÊ¼ÓÎÏ·
+// é‡æ–°å¼€å§‹æ¸¸æˆ
 void GameLayer::restartGame()
 {
     _isOver = false;
@@ -132,10 +132,10 @@ void GameLayer::restartGame()
     randGenGrid();
 }
 
-// ³·Ïú
+// æ’¤é”€
 void GameLayer::undoGame()
 {
-    if (_lastGrids[0][0] != DOUBLE_EMPTY) // ·Ç³õÊ¼»¯Ê±£¬²ÅÄÜµ÷ÓÃundo
+    if (_lastGrids[0][0] != DOUBLE_EMPTY) // éåˆå§‹åŒ–æ—¶ï¼Œæ‰èƒ½è°ƒç”¨undo
     {
         clearGrids();
         recoverLastGrids();
@@ -144,11 +144,11 @@ void GameLayer::undoGame()
 
 void GameLayer::saveLastGrids()
 {
-    // Èç¹ûÒÆ¶¯´ÎÊı²»µÈÓÚ1£¬Ôò²»±£´æÉÏÒ»¸öÍø¸ñ×´Ì¬
+    // å¦‚æœç§»åŠ¨æ¬¡æ•°ä¸ç­‰äº1ï¼Œåˆ™ä¸ä¿å­˜ä¸Šä¸€ä¸ªç½‘æ ¼çŠ¶æ€
     if (++isMove != 1)
         return;
 
-    // ±éÀúµ±Ç°Íø¸ñ£¬±£´æÃ¿¸ö¸ñ×ÓµÄÊıÖµµ½_lastGridsÊı×éÖĞ
+    // éå†å½“å‰ç½‘æ ¼ï¼Œä¿å­˜æ¯ä¸ªæ ¼å­çš„æ•°å€¼åˆ°_lastGridsæ•°ç»„ä¸­
     for (int row = 0; row < 4; row++)
     {
         for (int column = 0; column < 4; column++)
@@ -163,21 +163,21 @@ void GameLayer::saveLastGrids()
 
 void GameLayer::recoverLastGrids()
 {
-    // ±éÀúÉÏÒ»¸öÍø¸ñ×´Ì¬Êı×é£¬¸ù¾İÊıÖµ»Ö¸´Ã¿¸ö¸ñ×ÓµÄ×´Ì¬
+    // éå†ä¸Šä¸€ä¸ªç½‘æ ¼çŠ¶æ€æ•°ç»„ï¼Œæ ¹æ®æ•°å€¼æ¢å¤æ¯ä¸ªæ ¼å­çš„çŠ¶æ€
     for (int row = 0; row < 4; row++)
     {
         for (int column = 0; column < 4; column++)
         {
             if (_lastGrids[row][column] > EMPTY)
             {
-                // Èç¹ûÉÏÒ»¸öÍø¸ñ×´Ì¬²»Îª¿Õ£¬Ôò´´½¨ĞÂµÄ¸ñ×Ó²¢³õÊ¼»¯ÊıÖµ
+                // å¦‚æœä¸Šä¸€ä¸ªç½‘æ ¼çŠ¶æ€ä¸ä¸ºç©ºï¼Œåˆ™åˆ›å»ºæ–°çš„æ ¼å­å¹¶åˆå§‹åŒ–æ•°å€¼
                 _grids[row][column] = Grid::create();
                 _grids[row][column]->initValue(_lastGrids[row][column], row, column);
                 this->addChild(_grids[row][column]);
             }
             else
             {
-                // Èç¹ûÉÏÒ»¸öÍø¸ñ×´Ì¬Îª¿Õ£¬ÔòÖÃÎªnullptr
+                // å¦‚æœä¸Šä¸€ä¸ªç½‘æ ¼çŠ¶æ€ä¸ºç©ºï¼Œåˆ™ç½®ä¸ºnullptr
                 _grids[row][column] = nullptr;
             }
         }
@@ -186,7 +186,7 @@ void GameLayer::recoverLastGrids()
 
 void GameLayer::randGenGrid()
 {
-    isMove = 0; // ÖØÖÃÒÆ¶¯´ÎÊıÎª0£¬±ê¼ÇÎª´ÓĞÂ¿ªÊ¼ÅĞ¶ÏÊÇ·ñÒÆ¶¯
+    isMove = 0; // é‡ç½®ç§»åŠ¨æ¬¡æ•°ä¸º0ï¼Œæ ‡è®°ä¸ºä»æ–°å¼€å§‹åˆ¤æ–­æ˜¯å¦ç§»åŠ¨
     int value, row, column;
     do {
         value = CCRANDOM_0_1() * 16;
@@ -215,14 +215,14 @@ void GameLayer::onEnter()
 void GameLayer::onExit()
 {
     Layer::onExit();
-    // ÔÚÍË³öÓÎÏ·½çÃæÊ±£¬±£´æÊı¾İ
+    // åœ¨é€€å‡ºæ¸¸æˆç•Œé¢æ—¶ï¼Œä¿å­˜æ•°æ®
     /*log("eixt%d", DataConf::getInstance()->getModelType());*/
     DataConf::getInstance()->dumpData(Grid::getType());
 }
 
 bool GameLayer::onTouchBegan(Touch* touch, Event* event)
 {
-    if (_isOver) // Èç¹ûÓÎÏ·½áÊø£¬ÔòÖØĞÂ¿ªÊ¼ÓÎÏ·
+    if (_isOver) // å¦‚æœæ¸¸æˆç»“æŸï¼Œåˆ™é‡æ–°å¼€å§‹æ¸¸æˆ
     {
         auto fail = this->getChildByName("fail");
         fail->setVisible(false);
@@ -232,7 +232,7 @@ bool GameLayer::onTouchBegan(Touch* touch, Event* event)
 
     _begin = touch->getLocation();
     auto rect = Rect(this->getPosition().x, this->getPosition().y, this->getContentSize().width, this->getContentSize().height);
-    return rect.containsPoint(_begin); // Ö»ÓĞÔÚµã»÷ÓÎÏ·ÇøÓòÄÚ²ÅÏìÓ¦´¥ÃşÊÂ¼ş
+    return rect.containsPoint(_begin); // åªæœ‰åœ¨ç‚¹å‡»æ¸¸æˆåŒºåŸŸå†…æ‰å“åº”è§¦æ‘¸äº‹ä»¶
 }
 void GameLayer::onTouchMoved(Touch* touch, Event* event)
 {
@@ -242,45 +242,45 @@ void GameLayer::onTouchEnded(Touch* touch, Event* event)
     _end = touch->getLocation();
     auto value = _end - _begin;
 
-    // ÅĞ¶ÏºáÏòÒÆ¶¯»¹ÊÇ×İÏòÒÆ¶¯
-    if (abs(value.x) > abs(value.y)) // ×óÓÒÒÆ¶¯
+    // åˆ¤æ–­æ¨ªå‘ç§»åŠ¨è¿˜æ˜¯çºµå‘ç§»åŠ¨
+    if (abs(value.x) > abs(value.y)) // å·¦å³ç§»åŠ¨
     {
-        if (value.x - 5 > 0) // ÏòÓÒÒÆ¶¯
+        if (value.x - 5 > 0) // å‘å³ç§»åŠ¨
             moveToRight();
-        else if (value.x + 5 < 0) // Ïò×óÒÆ¶¯
+        else if (value.x + 5 < 0) // å‘å·¦ç§»åŠ¨
             moveToLeft();
         else
             return;
     }
-    else // ÉÏÏÂÒÆ¶¯
+    else // ä¸Šä¸‹ç§»åŠ¨
     {
-        if (value.y - 5 > 0) // ÏòÉÏÒÆ¶¯
+        if (value.y - 5 > 0) // å‘ä¸Šç§»åŠ¨
             moveToTop();
-        else if (value.y + 5 < 0) // ÏòÏÂÒÆ¶¯
+        else if (value.y + 5 < 0) // å‘ä¸‹ç§»åŠ¨
             moveToBottom();
         else
             return;
     }
 
-    if (isMove > 0) // Èç¹ûÓĞÒÆ¶¯£¬ÔòÉú³ÉĞÂµÄ¸ñ×Ó
+    if (isMove > 0) // å¦‚æœæœ‰ç§»åŠ¨ï¼Œåˆ™ç”Ÿæˆæ–°çš„æ ¼å­
         randGenGrid();
 
-    // ÅĞ¶ÏÓÎÏ·ÊÇ·ñ½áÊø
+    // åˆ¤æ–­æ¸¸æˆæ˜¯å¦ç»“æŸ
     _isOver = ifOver();
 }
 
 bool GameLayer::ifOver()
 {
-    // µ±´æÔÚ¿Õ¸ñ»òÕßÓĞÁ½¸öÏàÁÚµÄ grid Êı×ÖÏàÍ¬Ê±£¬±íÊ¾ÓÎÏ·Ã»ÓĞ½áÊø
+    // å½“å­˜åœ¨ç©ºæ ¼æˆ–è€…æœ‰ä¸¤ä¸ªç›¸é‚»çš„ grid æ•°å­—ç›¸åŒæ—¶ï¼Œè¡¨ç¤ºæ¸¸æˆæ²¡æœ‰ç»“æŸ
     for (int row = 0; row < 3; row++)
     {
         for (int column = 0; column < 3; column++)
         {
-            // Èç¹ûµ±Ç° grid Îª¿Õ£¬ÔòÓÎÏ·Î´½áÊø
+            // å¦‚æœå½“å‰ grid ä¸ºç©ºï¼Œåˆ™æ¸¸æˆæœªç»“æŸ
             if (_grids[row][column] == nullptr)
                 return false;
 
-            // Èç¹ûµ±Ç° grid ÓëÓÒ²à»òÏÂ²àµÄ grid Êı×ÖÏàÍ¬£¬ÔòÓÎÏ·Î´½áÊø
+            // å¦‚æœå½“å‰ grid ä¸å³ä¾§æˆ–ä¸‹ä¾§çš„ grid æ•°å­—ç›¸åŒï¼Œåˆ™æ¸¸æˆæœªç»“æŸ
             if (_grids[row][column]->compareTo(_grids[row][column + 1]) || _grids[row][column]->compareTo(_grids[row + 1][column]))
                 return false;
         }
@@ -288,14 +288,14 @@ bool GameLayer::ifOver()
 
     for (int column = 0; column < 3; column++)
     {
-        // Èç¹û×îÏÂÃæÒ»ĞĞµÄµ±Ç° grid Îª¿Õ»òÕßÓëÓÒ²à grid Êı×ÖÏàÍ¬£¬ÔòÓÎÏ·Î´½áÊø
+        // å¦‚æœæœ€ä¸‹é¢ä¸€è¡Œçš„å½“å‰ grid ä¸ºç©ºæˆ–è€…ä¸å³ä¾§ grid æ•°å­—ç›¸åŒï¼Œåˆ™æ¸¸æˆæœªç»“æŸ
         if (_grids[3][column] == nullptr || _grids[3][column]->compareTo(_grids[3][column + 1]))
             return false;
     }
 
     for (int row = 0; row < 3; row++)
     {
-        // Èç¹û×îÓÒ²àÒ»ÁĞµÄµ±Ç° grid Îª¿Õ»òÕßÓëÏÂ²à grid Êı×ÖÏàÍ¬£¬ÔòÓÎÏ·Î´½áÊø
+        // å¦‚æœæœ€å³ä¾§ä¸€åˆ—çš„å½“å‰ grid ä¸ºç©ºæˆ–è€…ä¸ä¸‹ä¾§ grid æ•°å­—ç›¸åŒï¼Œåˆ™æ¸¸æˆæœªç»“æŸ
         if (_grids[row][3] == nullptr || _grids[row][3]->compareTo(_grids[row + 1][3]))
             return false;
     }
@@ -304,7 +304,7 @@ bool GameLayer::ifOver()
     auto fail = this->getChildByName("fail");
     if (fail == nullptr)
     {
-        // ´´½¨Ò»¸ö°ëÍ¸Ã÷µÄ»ÒÉ«Í¼²ã£¬²¢Ìí¼Ó¡°Game Over!¡±±êÇ©
+        // åˆ›å»ºä¸€ä¸ªåŠé€æ˜çš„ç°è‰²å›¾å±‚ï¼Œå¹¶æ·»åŠ â€œGame Over!â€æ ‡ç­¾
         fail = LayerColor::create(Color4B(144, 144, 144, 144), 300, 300);
         auto flabel = Label::create("Game Over!", "Bold", 50);
         flabel->setPosition(150, 150);
@@ -322,25 +322,25 @@ int GameLayer::getPreGridIndex(const int direction, int row, int column)
     switch (direction)
     {
         case Direction::LEFT:
-            // Ïò×ó²éÕÒ×î½üµÄ·Ç¿Õ grid µÄÁĞË÷Òı
+            // å‘å·¦æŸ¥æ‰¾æœ€è¿‘çš„éç©º grid çš„åˆ—ç´¢å¼•
             while (--column >= 0)
                 if (_grids[row][column] != nullptr)
                     return column;
             break;
         case Direction::RIGHT:
-            // ÏòÓÒ²éÕÒ×î½üµÄ·Ç¿Õ grid µÄÁĞË÷Òı
+            // å‘å³æŸ¥æ‰¾æœ€è¿‘çš„éç©º grid çš„åˆ—ç´¢å¼•
             while (++column <= 3)
                 if (_grids[row][column] != nullptr)
                     return column;
             break;
         case Direction::UP:
-            // ÏòÉÏ²éÕÒ×î½üµÄ·Ç¿Õ grid µÄĞĞË÷Òı
+            // å‘ä¸ŠæŸ¥æ‰¾æœ€è¿‘çš„éç©º grid çš„è¡Œç´¢å¼•
             while (++row <= 3)
                 if (_grids[row][column] != nullptr)
                     return row;
             break;
         case Direction::DOWN:
-            // ÏòÏÂ²éÕÒ×î½üµÄ·Ç¿Õ grid µÄĞĞË÷Òı
+            // å‘ä¸‹æŸ¥æ‰¾æœ€è¿‘çš„éç©º grid çš„è¡Œç´¢å¼•
             while (--row >= 0)
                 if (_grids[row][column] != nullptr)
                     return row;
@@ -357,7 +357,7 @@ int GameLayer::moveGrid(const int direction, int row, int column, int targetRow,
     int preColumnOrRow = getPreGridIndex(direction, row, column);
     if (preColumnOrRow == ERRORINDEX)
     {
-        // Ö±½ÓÒÆ¶¯µ½Ä¿±êÎ»ÖÃ
+        // ç›´æ¥ç§»åŠ¨åˆ°ç›®æ ‡ä½ç½®
         moveOnly(row, column, targetRow, targetColumn);
         return ERRORINDEX;
     }
@@ -380,170 +380,168 @@ int GameLayer::moveGrid(const int direction, int row, int column, int targetRow,
             break;
     }
 
-    // ÅĞ¶ÏÊÇ·ñ¿ÉÒÔºÏ²¢Á½¸öÊı×Ö
+    // åˆ¤æ–­æ˜¯å¦å¯ä»¥åˆå¹¶ä¸¤ä¸ªæ•°å­—
     if (_grids[row][column]->compareTo(_grids[preRow][preCol]))
     {
         auto value = _grids[row][column]->getScoreValue();
-        // ÒÆ¶¯²¢Çå³ıÔ­Î»ÖÃ
+        // ç§»åŠ¨å¹¶æ¸…é™¤åŸä½ç½®
         moveAndClear(row, column, targetRow, targetColumn);
         moveAndClear(preRow, preCol, targetRow, targetColumn);
-        // ÒÆ¶¯²¢¸üĞÂºÏ²¢ºóµÄÊı×Ö
+        // ç§»åŠ¨å¹¶æ›´æ–°åˆå¹¶åçš„æ•°å­—
         moveAndUpdate(++value, targetRow, targetColumn);
-        AudioEngine::play2d("sound_click.mp3", false); // µÚ¶ş¸ö²ÎÊı true ±íÊ¾Ñ­»·²¥·Å
+        AudioEngine::play2d("sound_click.mp3", false); // ç¬¬äºŒä¸ªå‚æ•° true è¡¨ç¤ºå¾ªç¯æ’­æ”¾
         GameTool::getInstance()->updateScore(pow(2, ++value));
         return preColumnOrRow;
     }
 
-    // Ö±½ÓÒÆ¶¯µ½Ä¿±êÎ»ÖÃ
+    // ç›´æ¥ç§»åŠ¨åˆ°ç›®æ ‡ä½ç½®
     moveOnly(row, column, targetRow, targetColumn);
     return preColumnOrRow + tag;
 }bool GameLayer::moveToRight()
 {
-    // Ä¿±êÁĞË÷Òı³õÊ¼Îª 3£¨×îÓÒ²à£©
+    // ç›®æ ‡åˆ—ç´¢å¼•åˆå§‹ä¸º 3ï¼ˆæœ€å³ä¾§ï¼‰
     auto target = 3;
     for (int row = 0; row < 4; row++)
     {
-        // Ã¿´Î½øÈëĞÂµÄÒ»ĞĞ£¬ÖØĞÂ½«Ä¿±êÁĞË÷ÒıÉèÎª 3
+        // æ¯æ¬¡è¿›å…¥æ–°çš„ä¸€è¡Œï¼Œé‡æ–°å°†ç›®æ ‡åˆ—ç´¢å¼•è®¾ä¸º 3
         target = 3;
         for (int column = 3; column >= 0; column--)
         {
-            // Èç¹ûµ±Ç° grid Îª¿Õ£¬Ìø¹ı
+            // å¦‚æœå½“å‰ grid ä¸ºç©ºï¼Œè·³è¿‡
             if (_grids[row][column] == nullptr)
                 continue;
-            // ³¢ÊÔÏòÓÒÒÆ¶¯µ±Ç° grid£¬ÒÆ¶¯ºóµÃµ½ĞÂµÄÁĞË÷Òı
+            // å°è¯•å‘å³ç§»åŠ¨å½“å‰ gridï¼Œç§»åŠ¨åå¾—åˆ°æ–°çš„åˆ—ç´¢å¼•
             column = moveGrid(Direction::LEFT, row, column, row, target);
-            // Èç¹ûÒÆ¶¯Ê§°Ü£¨·µ»Ø ERRORINDEX£©£¬ÍË³öµ±Ç°ĞĞµÄÑ­»·
+            // å¦‚æœç§»åŠ¨å¤±è´¥ï¼ˆè¿”å› ERRORINDEXï¼‰ï¼Œé€€å‡ºå½“å‰è¡Œçš„å¾ªç¯
             if (column == ERRORINDEX)
                 break;
-            // ¸üĞÂÄ¿±êÁĞË÷Òı£¬Ïò×ó²àÒÆ¶¯Ò»¸ñ
+            // æ›´æ–°ç›®æ ‡åˆ—ç´¢å¼•ï¼Œå‘å·¦ä¾§ç§»åŠ¨ä¸€æ ¼
             target--;
         }
     }
-    // Èç¹ûÓĞÒÆ¶¯·¢Éú£¨isMove > 0£©£¬·µ»Ø true£¬·ñÔò·µ»Ø false
+    // å¦‚æœæœ‰ç§»åŠ¨å‘ç”Ÿï¼ˆisMove > 0ï¼‰ï¼Œè¿”å› trueï¼Œå¦åˆ™è¿”å› false
     return isMove > 0;
 }
 
 bool GameLayer::moveToLeft()
 {
-    // Ä¿±êÁĞË÷Òı³õÊ¼Îª 0£¨×î×ó²à£©
+    // ç›®æ ‡åˆ—ç´¢å¼•åˆå§‹ä¸º 0ï¼ˆæœ€å·¦ä¾§ï¼‰
     auto target = 0;
     for (int row = 0; row < 4; row++)
     {
-        // Ã¿´Î½øÈëĞÂµÄÒ»ĞĞ£¬ÖØĞÂ½«Ä¿±êÁĞË÷ÒıÉèÎª 0
+        // æ¯æ¬¡è¿›å…¥æ–°çš„ä¸€è¡Œï¼Œé‡æ–°å°†ç›®æ ‡åˆ—ç´¢å¼•è®¾ä¸º 0
         target = 0;
         for (int column = 0; column < 4; column++)
         {
-            // Èç¹ûµ±Ç° grid Îª¿Õ£¬Ìø¹ı
+            // å¦‚æœå½“å‰ grid ä¸ºç©ºï¼Œè·³è¿‡
             if (_grids[row][column] == nullptr)
                 continue;
-            // ³¢ÊÔÏò×óÒÆ¶¯µ±Ç° grid£¬ÒÆ¶¯ºóµÃµ½ĞÂµÄÁĞË÷Òı
+            // å°è¯•å‘å·¦ç§»åŠ¨å½“å‰ gridï¼Œç§»åŠ¨åå¾—åˆ°æ–°çš„åˆ—ç´¢å¼•
             column = moveGrid(Direction::RIGHT, row, column, row, target);
-            // Èç¹ûÒÆ¶¯Ê§°Ü£¨·µ»Ø ERRORINDEX£©£¬ÍË³öµ±Ç°ĞĞµÄÑ­»·
+            // å¦‚æœç§»åŠ¨å¤±è´¥ï¼ˆè¿”å› ERRORINDEXï¼‰ï¼Œé€€å‡ºå½“å‰è¡Œçš„å¾ªç¯
             if (column == ERRORINDEX)
                 break;
-            // ¸üĞÂÄ¿±êÁĞË÷Òı£¬ÏòÓÒ²àÒÆ¶¯Ò»¸ñ
+            // æ›´æ–°ç›®æ ‡åˆ—ç´¢å¼•ï¼Œå‘å³ä¾§ç§»åŠ¨ä¸€æ ¼
             target++;
         }
     }
-    // Èç¹ûÓĞÒÆ¶¯·¢Éú£¨isMove > 0£©£¬·µ»Ø true£¬·ñÔò·µ»Ø false
+    // å¦‚æœæœ‰ç§»åŠ¨å‘ç”Ÿï¼ˆisMove > 0ï¼‰ï¼Œè¿”å› trueï¼Œå¦åˆ™è¿”å› false
     return isMove > 0;
 }
 
 bool GameLayer::moveToTop()
 {
-    // Ä¿±êĞĞË÷Òı³õÊ¼Îª 3£¨×îÉÏ·½£©
+    // ç›®æ ‡è¡Œç´¢å¼•åˆå§‹ä¸º 3ï¼ˆæœ€ä¸Šæ–¹ï¼‰
     int target = 3;
     for (int column = 0; column < 4; column++)
     {
-        // Ã¿´Î½øÈëĞÂµÄÒ»ÁĞ£¬ÖØĞÂ½«Ä¿±êĞĞË÷ÒıÉèÎª 3
+        // æ¯æ¬¡è¿›å…¥æ–°çš„ä¸€åˆ—ï¼Œé‡æ–°å°†ç›®æ ‡è¡Œç´¢å¼•è®¾ä¸º 3
         target = 3;
         for (int row = 3; row >= 0; row--)
         {
-            // Èç¹ûµ±Ç° grid Îª¿Õ£¬Ìø¹ı
+            // å¦‚æœå½“å‰ grid ä¸ºç©ºï¼Œè·³è¿‡
             if (_grids[row][column] == nullptr)
                 continue;
-            // ³¢ÊÔÏòÉÏÒÆ¶¯µ±Ç° grid£¬ÒÆ¶¯ºóµÃµ½ĞÂµÄĞĞË÷Òı
+            // å°è¯•å‘ä¸Šç§»åŠ¨å½“å‰ gridï¼Œç§»åŠ¨åå¾—åˆ°æ–°çš„è¡Œç´¢å¼•
             row = moveGrid(Direction::DOWN, row, column, target, column);
-            // Èç¹ûÒÆ¶¯Ê§°Ü£¨·µ»Ø ERRORINDEX£©£¬ÍË³öµ±Ç°ÁĞµÄÑ­»·
+            // å¦‚æœç§»åŠ¨å¤±è´¥ï¼ˆè¿”å› ERRORINDEXï¼‰ï¼Œé€€å‡ºå½“å‰åˆ—çš„å¾ªç¯
             if (row == ERRORINDEX)
                 break;
-            // ¸üĞÂÄ¿±êĞĞË÷Òı£¬ÏòÏÂ·½ÒÆ¶¯Ò»¸ñ
+            // æ›´æ–°ç›®æ ‡è¡Œç´¢å¼•ï¼Œå‘ä¸‹æ–¹ç§»åŠ¨ä¸€æ ¼
             target--;
         }
     }
-    // Èç¹ûÓĞÒÆ¶¯·¢Éú£¨isMove > 0£©£¬·µ»Ø true£¬·ñÔò·µ»Ø false
+    // å¦‚æœæœ‰ç§»åŠ¨å‘ç”Ÿï¼ˆisMove > 0ï¼‰ï¼Œè¿”å› trueï¼Œå¦åˆ™è¿”å› false
     return isMove > 0;
 }
 
 bool GameLayer::moveToBottom()
 {
-    // Ä¿±êĞĞË÷Òı³õÊ¼Îª 0£¨×îÏÂ·½£©
+    // ç›®æ ‡è¡Œç´¢å¼•åˆå§‹ä¸º 0ï¼ˆæœ€ä¸‹æ–¹ï¼‰
     int target = 0;
     for (int column = 0; column < 4; column++)
     {
-        // Ã¿´Î½øÈëĞÂµÄÒ»ÁĞ£¬ÖØĞÂ½«Ä¿±êĞĞË÷ÒıÉèÎª 0
+        // æ¯æ¬¡è¿›å…¥æ–°çš„ä¸€åˆ—ï¼Œé‡æ–°å°†ç›®æ ‡è¡Œç´¢å¼•è®¾ä¸º 0
         target = 0;
         for (int row = 0; row < 4; row++)
         {
-            // Èç¹ûµ±Ç° grid Îª¿Õ£¬Ìø¹ı
+            // å¦‚æœå½“å‰ grid ä¸ºç©ºï¼Œè·³è¿‡
             if (_grids[row][column] == nullptr)
                 continue;
-            // ³¢ÊÔÏòÏÂÒÆ¶¯µ±Ç° grid£¬ÒÆ¶¯ºóµÃµ½ĞÂµÄĞĞË÷Òı
+            // å°è¯•å‘ä¸‹ç§»åŠ¨å½“å‰ gridï¼Œç§»åŠ¨åå¾—åˆ°æ–°çš„è¡Œç´¢å¼•
             row = moveGrid(Direction::UP, row, column, target, column);
-            // Èç¹ûÒÆ¶¯Ê§°Ü£¨·µ»Ø ERRORINDEX£©£¬ÍË³öµ±Ç°ÁĞµÄÑ­»·
+            // å¦‚æœç§»åŠ¨å¤±è´¥ï¼ˆè¿”å› ERRORINDEXï¼‰ï¼Œé€€å‡ºå½“å‰åˆ—çš„å¾ªç¯
             if (row == ERRORINDEX)
                 break;
-            // ¸üĞÂÄ¿±êĞĞË÷Òı£¬ÏòÉÏ·½ÒÆ¶¯Ò»¸ñ
+            // æ›´æ–°ç›®æ ‡è¡Œç´¢å¼•ï¼Œå‘ä¸Šæ–¹ç§»åŠ¨ä¸€æ ¼
             target++;
         }
     }
-    // Èç¹ûÓĞÒÆ¶¯·¢Éú£¨isMove > 0£©£¬·µ»Ø true£¬·ñÔò·µ»Ø false
+    // å¦‚æœæœ‰ç§»åŠ¨å‘ç”Ÿï¼ˆisMove > 0ï¼‰ï¼Œè¿”å› trueï¼Œå¦åˆ™è¿”å› false
     return isMove > 0;
 }
 
-// ½öÒÆ¶¯ grid£¬²»½øĞĞºÏ²¢»òÆäËû²Ù×÷
+// ä»…ç§»åŠ¨ gridï¼Œä¸è¿›è¡Œåˆå¹¶æˆ–å…¶ä»–æ“ä½œ
 void GameLayer::moveOnly(int row, int column, int targetRow, int targetColumn)
 {
-    // Èç¹ûµ±Ç°Î»ÖÃºÍÄ¿±êÎ»ÖÃÏàÍ¬£¬ÔòÖ±½Ó·µ»Ø
+    // å¦‚æœå½“å‰ä½ç½®å’Œç›®æ ‡ä½ç½®ç›¸åŒï¼Œåˆ™ç›´æ¥è¿”å›
     if (row == targetRow && column == targetColumn)
         return;
 
-    // ½öÔÚµÚÒ»´ÎÒÆ¶¯Ê±£¬±£´æÉÏÒ»´ÎµÄ²¼¾Ö
+    // ä»…åœ¨ç¬¬ä¸€æ¬¡ç§»åŠ¨æ—¶ï¼Œä¿å­˜ä¸Šä¸€æ¬¡çš„å¸ƒå±€
     saveLastGrids();
 
-    // ´´½¨ÒÆ¶¯¶¯×÷£¬ÒÆ¶¯µ½Ä¿±êÎ»ÖÃ£¨ÕâÀï×¢ÊÍµôµÄ´úÂëÊ¹ÓÃÁË MoveTo ¶¯×÷Àà£¬¿ÉÒÔ¸ù¾İÊµ¼ÊÇé¿öÑ¡ÔñÊÇ·ñÊ¹ÓÃ£©
-    //auto action = MoveTo::create(0.1f, Vec2(73*targetColumn + 8, 73*targetRow + 8));
-    // µ÷ÓÃ grid µÄ moveOnly ·½·¨½øĞĞÒÆ¶¯
+    // è°ƒç”¨ grid çš„ moveOnly æ–¹æ³•è¿›è¡Œç§»åŠ¨
     _grids[row][column]->moveOnly(targetRow, targetColumn);
-    // ¸üĞÂÄ¿±êÎ»ÖÃµÄ grid Ö¸Õë
+    // æ›´æ–°ç›®æ ‡ä½ç½®çš„ grid æŒ‡é’ˆ
     _grids[targetRow][targetColumn] = _grids[row][column];
-    // ½«µ±Ç°Î»ÖÃµÄ grid Ö¸ÕëÖÃÎª¿Õ
+    // å°†å½“å‰ä½ç½®çš„ grid æŒ‡é’ˆç½®ä¸ºç©º
     _grids[row][column] = nullptr;
 }
 
-// ´´½¨ĞÂµÄ grid ²¢ÒÆ¶¯µ½Ä¿±êÎ»ÖÃ£¬Í¬Ê±¸üĞÂÆäÖµ
+// åˆ›å»ºæ–°çš„ grid å¹¶ç§»åŠ¨åˆ°ç›®æ ‡ä½ç½®ï¼ŒåŒæ—¶æ›´æ–°å…¶å€¼
 void GameLayer::moveAndUpdate(int value, int targetRow, int targetColumn)
 {
-    // ´´½¨ĞÂµÄÁÙÊ± grid
+    // åˆ›å»ºæ–°çš„ä¸´æ—¶ grid
     auto temp = Grid::create();
-    // ³õÊ¼»¯ÁÙÊ± grid µÄÖµ¡¢ĞĞË÷ÒıºÍÁĞË÷Òı
+    // åˆå§‹åŒ–ä¸´æ—¶ grid çš„å€¼ã€è¡Œç´¢å¼•å’Œåˆ—ç´¢å¼•
     temp->initValue(value, targetRow, targetColumn);
-    // ¸üĞÂÄ¿±êÎ»ÖÃµÄ grid Ö¸ÕëÎªĞÂ´´½¨µÄÁÙÊ± grid
+    // æ›´æ–°ç›®æ ‡ä½ç½®çš„ grid æŒ‡é’ˆä¸ºæ–°åˆ›å»ºçš„ä¸´æ—¶ grid
     _grids[targetRow][targetColumn] = temp;
-    // ½«ĞÂµÄ grid Ìí¼Óµ½µ±Ç°²ãÖĞ
+    // å°†æ–°çš„ grid æ·»åŠ åˆ°å½“å‰å±‚ä¸­
     this->addChild(_grids[targetRow][targetColumn]);
-    // µ÷ÓÃÁÙÊ± grid µÄ moveAndUpdate ·½·¨½øĞĞÒÆ¶¯ºÍ¸üĞÂÏÔÊ¾
+    // è°ƒç”¨ä¸´æ—¶ grid çš„ moveAndUpdate æ–¹æ³•è¿›è¡Œç§»åŠ¨å’Œæ›´æ–°æ˜¾ç¤º
     temp->moveAndUpdate();
 }
 
-// ÒÆ¶¯ grid ²¢ÔÚÒÆ¶¯ºóÇå³ıÔ­Î»ÖÃµÄ grid
+// ç§»åŠ¨ grid å¹¶åœ¨ç§»åŠ¨åæ¸…é™¤åŸä½ç½®çš„ grid
 void GameLayer::moveAndClear(int row, int column, int targetRow, int targetColumn)
 {
-    // ±£´æÉÏÒ»´ÎµÄ²¼¾Ö
+    // ä¿å­˜ä¸Šä¸€æ¬¡çš„å¸ƒå±€
     saveLastGrids();
 
-    // µ÷ÓÃ grid µÄ moveAndClear ·½·¨½øĞĞÒÆ¶¯ºÍÇå³ıÔ­Î»ÖÃ
+    // è°ƒç”¨ grid çš„ moveAndClear æ–¹æ³•è¿›è¡Œç§»åŠ¨å’Œæ¸…é™¤åŸä½ç½®
     _grids[row][column]->moveAndClear(targetRow, targetColumn);
-    // ½«Ô­Î»ÖÃµÄ grid Ö¸ÕëÖÃÎª¿Õ
+    // å°†åŸä½ç½®çš„ grid æŒ‡é’ˆç½®ä¸ºç©º
     _grids[row][column] = nullptr;
 }
