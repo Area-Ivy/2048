@@ -2,12 +2,11 @@
 #include "GameTool.h"
 #include "GameLayer.h"
 
-//static std::string map[] = {"2", "4", "8", "16", "32", "64", "128", "256", "512", "1024", "2048", "4096", "8192", "16384", "32768", "65536",  "131072", "262144", "524288"};
 std::string map[16] = { "0" };
 std::string num[19] = { "2", "4", "8", "16", "32", "64", "128", "256", "512", "1024", "2048", "4096", "8192", "16384", "32768", "65536",  "131072", "262144", "524288" };
 
 static int type = 1;
-// ¸Ä±äÓÎÏ·ÀàÐÍ£¬¸üÐÂÏà¹Ø×´Ì¬²¢ÖØÐÂ¼ÓÔØ·ÖÊýºÍÍø¸ñ²¼¾Ö
+// æ”¹å˜æ¸¸æˆç±»åž‹ï¼Œæ›´æ–°ç›¸å…³çŠ¶æ€å¹¶é‡æ–°åŠ è½½åˆ†æ•°å’Œç½‘æ ¼å¸ƒå±€
 void Grid::changeType(int _type)
 {
     type = _type;
@@ -15,13 +14,13 @@ void Grid::changeType(int _type)
     GameLayer::getInstance()->loadGrids(type);
 }
 
-// »ñÈ¡µ±Ç°ÓÎÏ·ÀàÐÍ
+// èŽ·å–å½“å‰æ¸¸æˆç±»åž‹
 int Grid::getType()
 {
     return type;
 }
 
-// ½« GB2312 ±àÂë×Ö·û´®×ª»»Îª UTF-8 ±àÂë×Ö·û´®
+// å°† GB2312 ç¼–ç å­—ç¬¦ä¸²è½¬æ¢ä¸º UTF-8 ç¼–ç å­—ç¬¦ä¸²
 char* Grid::G2U(const char* gb2312)
 {
     int len = MultiByteToWideChar(CP_ACP, 0, gb2312, -1, NULL, 0);
@@ -36,40 +35,40 @@ char* Grid::G2U(const char* gb2312)
     return str;
 }
 
-// ³õÊ¼»¯Íø¸ñ¶ÔÏó
+// åˆå§‹åŒ–ç½‘æ ¼å¯¹è±¡
 bool Grid::init()
 {
     if (!Layer::init())
         return false;
 
-    // ¼ÓÔØµØÍ¼Êý¾Ý
+    // åŠ è½½åœ°å›¾æ•°æ®
     loadMap();
 
-    // ÉèÖÃÍø¸ñµÄ´óÐ¡
+    // è®¾ç½®ç½‘æ ¼çš„å¤§å°
     this->setContentSize(Size(65, 65));
-    // ³õÊ¼ÖµÉèÎª 0
+    // åˆå§‹å€¼è®¾ä¸º 0
     _value = 0;
-    // ´´½¨±³¾°ÑÕÉ«²ã
+    // åˆ›å»ºèƒŒæ™¯é¢œè‰²å±‚
     _bg = LayerColor::create(Color4B(213, 205, 194, 255), 65, 65);
     //_bg->setAnchorPoint(Vec2(32.5f, 32.5f));
-    // ´´½¨±êÇ©ÓÃÓÚÏÔÊ¾Êý×Ö
+    // åˆ›å»ºæ ‡ç­¾ç”¨äºŽæ˜¾ç¤ºæ•°å­—
     _label = Label::createWithSystemFont(map[_value], "Arial", 30);
     //_label = Label::createWithTTF(map[_value], "MarkerFelt.ttf", 30);
-    // ÉèÖÃ±êÇ©µÄÎ»ÖÃÔÚÍø¸ñÖÐÐÄ
+    // è®¾ç½®æ ‡ç­¾çš„ä½ç½®åœ¨ç½‘æ ¼ä¸­å¿ƒ
     _label->setPosition(32.5f, 32.5f);
-    // ½«±³¾°ºÍ±êÇ©Ìí¼Óµ½Íø¸ñ²ã
+    // å°†èƒŒæ™¯å’Œæ ‡ç­¾æ·»åŠ åˆ°ç½‘æ ¼å±‚
     this->addChild(_bg);
     this->addChild(_label);
-    // ¸üÐÂ±³¾°ÑÕÉ«ºÍ±êÇ©ÏÔÊ¾
+    // æ›´æ–°èƒŒæ™¯é¢œè‰²å’Œæ ‡ç­¾æ˜¾ç¤º
     updateBg();
 
     return true;
 }
 
-// ¼ÓÔØµØÍ¼Êý¾Ý£¬¸ù¾ÝÓÎÏ·ÀàÐÍÉèÖÃ²»Í¬µÄÏÔÊ¾ÄÚÈÝ
+// åŠ è½½åœ°å›¾æ•°æ®ï¼Œæ ¹æ®æ¸¸æˆç±»åž‹è®¾ç½®ä¸åŒçš„æ˜¾ç¤ºå†…å®¹
 void Grid::loadMap()
 {
-    if (map[0].compare("0") == 0) // Ê×´Î¼ÓÔØÊ±£¬¸ù¾ÝÓÎÏ·ÀàÐÍ¼ÓÔØÏÔÊ¾¶ÔÏó
+    if (map[0].compare("0") == 0) // é¦–æ¬¡åŠ è½½æ—¶ï¼Œæ ¹æ®æ¸¸æˆç±»åž‹åŠ è½½æ˜¾ç¤ºå¯¹è±¡
     {
         type = UserDefault::getInstance()->getIntegerForKey("type", 0);
     }
@@ -83,33 +82,33 @@ void Grid::loadMap()
     }
 }
 
-// ÅÐ¶Ïµ±Ç°Íø¸ñÓëÁíÒ»¸öÍø¸ñµÄÖµÊÇ·ñÏàÍ¬
+// åˆ¤æ–­å½“å‰ç½‘æ ¼ä¸Žå¦ä¸€ä¸ªç½‘æ ¼çš„å€¼æ˜¯å¦ç›¸åŒ
 bool Grid::compareTo(Grid* grid)
 {
     return grid != nullptr && _value == grid->getScoreValue();
 }
 
-// ³õÊ¼»¯Íø¸ñµÄÖµ£¬ÓÃÓÚ´´½¨ÐÂµÄÍø¸ñ
+// åˆå§‹åŒ–ç½‘æ ¼çš„å€¼ï¼Œç”¨äºŽåˆ›å»ºæ–°çš„ç½‘æ ¼
 void Grid::initValue(int value)
 {
     _value = value;
     updateBg();
 }
 
-// ³õÊ¼»¯Íø¸ñµÄÖµ£¬²¢ÉèÖÃÍø¸ñµÄÐÐºÍÁÐÎ»ÖÃ
+// åˆå§‹åŒ–ç½‘æ ¼çš„å€¼ï¼Œå¹¶è®¾ç½®ç½‘æ ¼çš„è¡Œå’Œåˆ—ä½ç½®
 void Grid::initValue(int value, int row, int column)
 {
     setLocalPosition(row, column);
     initValue(value);
 }
 
-// ÉèÖÃÍø¸ñÔÚÓÎÏ·²¼¾ÖÖÐµÄÎ»ÖÃ
+// è®¾ç½®ç½‘æ ¼åœ¨æ¸¸æˆå¸ƒå±€ä¸­çš„ä½ç½®
 void Grid::setLocalPosition(int row, int column)
 {
     this->setPosition(column * 73 + 8, row * 73 + 8);
 }
 
-// ³õÊ¼»¯Íø¸ñµÄÏÔÊ¾¶¯»­
+// åˆå§‹åŒ–ç½‘æ ¼çš„æ˜¾ç¤ºåŠ¨ç”»
 void Grid::initAction()
 {
     auto a1 = ScaleTo::create(0.3f, 1);
@@ -119,13 +118,13 @@ void Grid::initAction()
     runAction(a3);
 }
 
-// ½öÒÆ¶¯Íø¸ñµ½Ä¿±êÎ»ÖÃ
+// ä»…ç§»åŠ¨ç½‘æ ¼åˆ°ç›®æ ‡ä½ç½®
 void Grid::moveOnly(int targetRow, int targetColumn)
 {
     runAction(MoveTo::create(0.1f, Vec2(73 * targetColumn + 8, 73 * targetRow + 8)));
 }
 
-// ÒÆ¶¯Íø¸ñµ½Ä¿±êÎ»ÖÃ²¢Çå³ýµ±Ç°Íø¸ñ
+// ç§»åŠ¨ç½‘æ ¼åˆ°ç›®æ ‡ä½ç½®å¹¶æ¸…é™¤å½“å‰ç½‘æ ¼
 void Grid::moveAndClear(int targetRow, int targetColumn)
 {
     auto a1 = MoveTo::create(0.1f, Vec2(73 * targetColumn + 8, 73 * targetRow + 8));
@@ -138,7 +137,7 @@ void Grid::moveAndClear(int targetRow, int targetColumn)
     this->runAction(Sequence::create(a3, a4, nullptr));
 }
 
-// ÒÆ¶¯Íø¸ñ²¢½øÐÐ¸üÐÂÏÔÊ¾
+// ç§»åŠ¨ç½‘æ ¼å¹¶è¿›è¡Œæ›´æ–°æ˜¾ç¤º
 void Grid::moveAndUpdate()
 {
     this->setVisible(false);
@@ -152,7 +151,7 @@ void Grid::moveAndUpdate()
     this->runAction(action04);
 }
 
-// ¸üÐÂÍø¸ñµÄ±³¾°ÑÕÉ«ºÍ±êÇ©ÏÔÊ¾
+// æ›´æ–°ç½‘æ ¼çš„èƒŒæ™¯é¢œè‰²å’Œæ ‡ç­¾æ˜¾ç¤º
 void Grid::updateBg()
 {
     _label->setString(map[_value]);
