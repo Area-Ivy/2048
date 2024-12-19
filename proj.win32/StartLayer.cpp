@@ -11,26 +11,26 @@ bool StartLayer::init()
         return false;
     }
 
-    // »ñÈ¡ÆÁÄ»³ß´ç
+    // èŽ·å–å±å¹•å°ºå¯¸
     Size visibleSize = Director::getInstance()->getVisibleSize();
     Vec2 origin = Director::getInstance()->getVisibleOrigin();
 
-    // ´´½¨ºÚÉ«±³¾°
-    auto background = LayerColor::create(Color4B(0, 0, 0, 180));  // ºÚÉ«±³¾°£¬Í¸Ã÷¶È180
-    background->setPosition(Vec2::ZERO);  // ½«±³¾°²ãÎ»ÖÃÉèÖÃÎªÔ­µã
+    // åˆ›å»ºé»‘è‰²èƒŒæ™¯
+    auto background = LayerColor::create(Color4B(0, 0, 0, 180));  // é»‘è‰²èƒŒæ™¯ï¼Œé€æ˜Žåº¦180
+    background->setPosition(Vec2::ZERO);  // å°†èƒŒæ™¯å±‚ä½ç½®è®¾ç½®ä¸ºåŽŸç‚¹
     this->addChild(background);
 
-    // ´´½¨¡°ÐÂÓÎÏ·¡±°´Å¥
+    // åˆ›å»ºâ€œæ–°æ¸¸æˆâ€æŒ‰é’®
     auto newGameItem = MenuItemLabel::create(Label::createWithTTF("New Game", "fonts/arial.ttf", 24),
         CC_CALLBACK_1(StartLayer::onNewGameClicked, this));
     newGameItem->setPosition(Vec2(visibleSize.width / 2, visibleSize.height / 2 + 50));
 
-    // ´´½¨¡°¼ÌÐøÓÎÏ·¡±°´Å¥
+    // åˆ›å»ºâ€œç»§ç»­æ¸¸æˆâ€æŒ‰é’®
     auto continueGameItem = MenuItemLabel::create(Label::createWithTTF("Continue Game", "fonts/arial.ttf", 24),
         CC_CALLBACK_1(StartLayer::onContinueGameClicked, this));
     continueGameItem->setPosition(Vec2(visibleSize.width / 2, visibleSize.height / 2 - 50));
 
-    // ½«°´Å¥·ÅÈë²Ëµ¥ÖÐ
+    // å°†æŒ‰é’®æ”¾å…¥èœå•ä¸­
     auto menu = Menu::create(newGameItem, continueGameItem, nullptr);
     menu->setPosition(Vec2::ZERO);
     this->addChild(menu);
@@ -38,23 +38,20 @@ bool StartLayer::init()
     return true;
 }
 
-// µã»÷¡°ÐÂÓÎÏ·¡±°´Å¥ºóµÄ´¦Àíº¯Êý
+// ç‚¹å‡»â€œæ–°æ¸¸æˆâ€æŒ‰é’®åŽçš„å¤„ç†å‡½æ•°
 void StartLayer::onNewGameClicked(Ref* sender) {
     GameLayer::getInstance()->restartGame();
-    // Òþ²Øµ±Ç° UI ²ã
+    // éšè—å½“å‰ UI å±‚
     this->setVisible(false);
     log("reset game");
 }
 
-// µã»÷¡°¼ÌÐøÓÎÏ·¡±°´Å¥ºóµÄ´¦Àíº¯Êý
+// ç‚¹å‡»â€œç»§ç»­æ¸¸æˆâ€æŒ‰é’®åŽçš„å¤„ç†å‡½æ•°
 void StartLayer::onContinueGameClicked(Ref* sender)
 {
-    // ¼ÌÐøÓÎÏ·µÄÂß¼­£¬ÀýÈç¼ÓÔØ±£´æµÄÓÎÏ·Êý¾Ý
+    // ç»§ç»­æ¸¸æˆçš„é€»è¾‘ï¼Œä¾‹å¦‚åŠ è½½ä¿å­˜çš„æ¸¸æˆæ•°æ®
 
-    // Òþ²Øµ±Ç° UI ²ã
+    // éšè—å½“å‰ UI å±‚
     this->setVisible(false);
-
-    // ÕâÀï¿ÉÒÔÌí¼Ó¼ÌÐøÓÎÏ·µÄÂß¼­
-    // ¼ÙÉèÖ±½Ó½øÈëÓÎÏ·³¡¾°
-    //Director::getInstance()->replaceScene(GameScene::createScene());
+    
 }
