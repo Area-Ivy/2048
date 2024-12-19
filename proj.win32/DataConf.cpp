@@ -5,57 +5,41 @@
 static DataConf* instance;
 DataConf* DataConf::getInstance()
 {
-	if (instance == nullptr) // Èç¹ûÊµÀıÎª¿Õ
-		instance = create(); // ´´½¨Ò»¸öÊµÀı
+	if (instance == nullptr) // å¦‚æœå®ä¾‹ä¸ºç©º
+		instance = create(); // åˆ›å»ºä¸€ä¸ªå®ä¾‹
 
-	return instance; // ·µ»ØÊµÀı
+	return instance; // è¿”å›å®ä¾‹
 }
 
 bool DataConf::init()
 {
-	return true; // ³õÊ¼»¯º¯Êı£¬Ä¿Ç°×ÜÊÇ·µ»Ø true
+	return true; // åˆå§‹åŒ–å‡½æ•°ï¼Œç›®å‰æ€»æ˜¯è¿”å› true
 }
-
-//void DataConf::loadMap()
-//{
-//	extern std::string map[16];
-//	auto all = FileUtils::getInstance()->getValueMapFromFile("data.plist");
-//	auto type = all.at("type").asInt();
-//	log("the type is %d\n", type);
-//
-//	for(int i = 0; i < 16; i++)
-//	{
-//		if(type == 0)
-//			map[i] = "";
-//		else
-//			map[i] = all.at(Value(type+i).asString()).asString();
-//	}
-//}
 
 void DataConf::dumpData(int type)
 {
-	auto f = UserDefault::getInstance(); // »ñÈ¡ UserDefault ÊµÀı
-	f->setIntegerForKey(Value(type).asString().append("score").c_str(), GameTool::getInstance()->getScore()); // ´æ´¢µ±Ç°·ÖÊı
-	f->setIntegerForKey(Value(type).asString().append("best_score").c_str(), GameTool::getInstance()->getBestScore()); // ´æ´¢×î¸ß·ÖÊı
-	f->setIntegerForKey("type", type); // ´æ´¢ÓÎÏ·ÀàĞÍ
-	f->setBoolForKey(Value(type).asString().append("exits").c_str(), true); // ´æ´¢ÓÎÏ·×´Ì¬Îª´æÔÚ
-	GameTool::getInstance()->saveScoresToLocal(); // ±£´æ·ÖÊıµ½±¾µØ
-	f->flush(); // Á¢¼´±£´æµ½±¾µØ
+	auto f = UserDefault::getInstance(); // è·å– UserDefault å®ä¾‹
+	f->setIntegerForKey(Value(type).asString().append("score").c_str(), GameTool::getInstance()->getScore()); // å­˜å‚¨å½“å‰åˆ†æ•°
+	f->setIntegerForKey(Value(type).asString().append("best_score").c_str(), GameTool::getInstance()->getBestScore()); // å­˜å‚¨æœ€é«˜åˆ†æ•°
+	f->setIntegerForKey("type", type); // å­˜å‚¨æ¸¸æˆç±»å‹
+	f->setBoolForKey(Value(type).asString().append("exits").c_str(), true); // å­˜å‚¨æ¸¸æˆçŠ¶æ€ä¸ºå­˜åœ¨
+	GameTool::getInstance()->saveScoresToLocal(); // ä¿å­˜åˆ†æ•°åˆ°æœ¬åœ°
+	f->flush(); // ç«‹å³ä¿å­˜åˆ°æœ¬åœ°
 
 	Grid* temp;
 	int value;
-	for (int i = 0; i < 4; i++) // ±éÀúĞĞ
+	for (int i = 0; i < 4; i++) // éå†è¡Œ
 	{
-		for (int j = 0; j < 4; j++) // ±éÀúÁĞ
+		for (int j = 0; j < 4; j++) // éå†åˆ—
 		{
-			temp = GameLayer::getInstance()->_grids[i][j]; // »ñÈ¡µ±Ç°¸ñ×Ó
+			temp = GameLayer::getInstance()->_grids[i][j]; // è·å–å½“å‰æ ¼å­
 			if (temp == nullptr)
 				value = -1;
 			else
-				value = temp->getScoreValue(); // »ñÈ¡¸ñ×ÓµÄ·ÖÊıÖµ
-			f->setIntegerForKey(Value(type * 3).asString().append(Value(100 + i * 4 + j).asString()).c_str(), value); // ´æ´¢µ±Ç°¸ñ×Ó·ÖÊıÖµ
-			f->setIntegerForKey(Value(type * 3).asString().append(Value(i * 4 + j).asString()).c_str(), GameLayer::getInstance()->_lastGrids[i][j]); // ´æ´¢ÉÏÒ»¸ö¸ñ×Ó×´Ì¬
+				value = temp->getScoreValue(); // è·å–æ ¼å­çš„åˆ†æ•°å€¼
+			f->setIntegerForKey(Value(type * 3).asString().append(Value(100 + i * 4 + j).asString()).c_str(), value); // å­˜å‚¨å½“å‰æ ¼å­åˆ†æ•°å€¼
+			f->setIntegerForKey(Value(type * 3).asString().append(Value(i * 4 + j).asString()).c_str(), GameLayer::getInstance()->_lastGrids[i][j]); // å­˜å‚¨ä¸Šä¸€ä¸ªæ ¼å­çŠ¶æ€
 		}
 	}
-	f->flush(); // Á¢¼´±£´æµ½±¾µØ
+	f->flush(); // ç«‹å³ä¿å­˜åˆ°æœ¬åœ°
 }
