@@ -10,7 +10,7 @@ bool MenuButton::init()
 }
 
 MenuItem* MenuButton::getMenuItem(const std::string& text, const Size& size)
-{  // 调用 Grid::G2U 进行编码转换
+{  
 	const char* gb2312Text = text.c_str();
 	auto label = Label::createWithSystemFont(Grid::G2U(gb2312Text), "Airal", 26);
 	//label->setTextColor(Color4B(120,120,0, 255));
