@@ -349,7 +349,6 @@ int GameLayer::getPreGridIndex(const int direction, int row, int column)
     return ERRORINDEX;
 }
 
-// move the grid to target place and return the pre_grid index
 int GameLayer::moveGrid(const int direction, int row, int column, int targetRow, int targetColumn)
 {
     int addScore = 0;
