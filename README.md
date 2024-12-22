@@ -39,8 +39,10 @@
 | 1024  | 橙色               | (245, 124, 78) | #F57C4E    |
 | 2048  | 鲜红色             | (246, 76, 20)  | #F64C14    |
 
+
+
 # 说明文档
-# 2048小游戏
+ # 2048小游戏
 
 游戏核心逻辑
 GameScene.cpp
@@ -201,16 +203,15 @@ GameMenuLayer 是游戏菜单的主界面，它继承自 Layer，并通过 creat
 在 init() 中，三个主要按钮被创建并添加到菜单中，每个按钮对应一个功能：
 
 	重置游戏按钮：用于重新开始游戏。
-
 	resetGameFun 方法负责调用 GameLayer 中的 restartGame() 方法，重新开始游戏。
 	按钮位置和大小是由 resetBg 和 resetmenu 定义的，按钮的文本为 "重新开始"。
+	
 	设置按钮：用于显示或隐藏设置菜单。
-
 	setGameFun 方法会切换设置菜单的可见性。
 	当按钮被点击时，setmenu 会根据当前状态显示或隐藏设置菜单（SetMenu）。
 	按钮的位置和大小由 setBg 和 setmenu 定义，按钮文本为 "设置"。
+	
 	撤销按钮：用于撤销到上一个游戏状态。
-
 	undoGameFun 方法会调用 GameLayer 中的 undoGame() 方法，恢复到游戏的上一个状态。
 
 3. UI 布局
@@ -242,65 +243,62 @@ Grid 类核心实现文档
 Grid 类是用于管理和显示游戏中的网格（格子）元素，主要用于类似 2048 游戏的实现中。它负责管理每个格子的状态、位置、大小、显示内容以及动画效果。下面是该类的核心实现和功能的详细说明。
 
 1. 属性声明
-map[16]：用于存储每个值对应的文本显示内容。它根据游戏模式的不同可能会显示数字或者为空字符串。
-num[]：一个静态的数字数组，用于显示 2、4、8、16 等常见的游戏数字。
-_value：该格子的值，决定了格子的显示内容和颜色。
-_bg：格子的背景，使用 LayerColor 实现，显示不同颜色。
-_label：显示在格子中的文本，用于展示该格子的数值。
+	_value：该格子的值，决定了格子的显示内容。
+	_bg：格子的背景，使用 LayerColor 实现，显示不同颜色。
+
 2. 方法概述
-2.1 changeType(int _type)
-用于切换游戏的类型（如经典模式、颜色模式等）。
-改变当前 type，并根据新类型加载游戏分数和格子信息。
-2.2 getType()
-返回当前的游戏类型 type。
-2.3 G2U(const char* gb2312)
-将 gb2312 编码的字符串转换为 UTF-8 编码。用于处理中文字符的显示。
-2.4 init()
-初始化方法，设置格子尺寸、背景、标签等元素，并调用 updateBg() 来更新格子的外观。
-创建一个 65x65 的格子，背景颜色为 #D5CDA2，显示的初始文本为 map[_value] 中对应的内容。
-2.5 loadMap()
-加载地图数据，决定每个格子的显示内容。
-如果 map[0] 为 "0"，则通过 UserDefault 获取保存的游戏类型 type。根据 type 的不同，设置 map[i] 的内容：经典模式下是数字，颜色模式下为空字符串。
-2.6 compareTo(Grid* grid)
-比较当前格子的值与另一个格子的值，返回是否相等。
-2.7 initValue(int value)
-初始化格子的值，并调用 updateBg() 更新格子的背景和显示内容。
-2.8 initValue(int value, int row, int column)
-除了初始化值外，还设置格子的位置（根据行列坐标）。
-2.9 setLocalPosition(int row, int column)
-设置格子的屏幕位置，位置计算公式是 (column * 73 + 8, row * 73 + 8)，格子的大小为 65x65，边距为 8。
-2.10 initAction()
-格子初始化动画。执行缩放和淡入效果，使格子从无到有的显示出来。
-2.11 moveOnly(int targetRow, int targetColumn)
-仅移动格子到目标位置，不进行其他动画效果。
-2.12 moveAndClear(int targetRow, int targetColumn)
-格子移动到目标位置并同时淡出，然后从父节点中移除，执行“清除”动作。
-2.13 moveAndUpdate()
-执行移动动画、缩放动画，并且更新格子的值和显示内容。
-在动画结束后通过 CallFunc 让格子显示出来。
-2.14 updateBg()
-根据当前格子的 _value 更新背景颜色和文本颜色。
-格子的背景颜色和文本颜色根据 _value 设定不同的色值。例如，_value = 0 时背景为 #F7D561，字体为灰色，_value = 1 时背景为 #A6E867，字体为深灰色。
-如果游戏类型是经典模式，则根据 _value 的大小调整字体大小。
-3. 常量与枚举
-3.1 map 数组
-存储了 16 个不同的数字，初始时会根据游戏模式（经典或颜色模式）来选择不同的数字显示。
-3.2 type
-游戏的模式类型。可以是经典模式 (StateType::CLASSIC) 或颜色模式 (StateType::COLOR)。
-4. 动画效果
+	2.1 G2U(const char* gb2312)
+	将 gb2312 编码的字符串转换为 UTF-8 编码。用于处理中文字符的显示。
+
+	2.2 init()
+	初始化方法，设置格子尺寸、背景等元素，并调用 updateBg() 来更新格子的外观。
+
+	2.3 compareTo(Grid* grid)
+	比较当前格子的值与另一个格子的值，返回是否相等。
+
+	2.4 initValue(int value)
+	初始化格子的值，并调用 updateBg() 更新格子的背景和显示内容。
+
+	2.5initValue(int value, int row, int column)
+	除了初始化值外，还设置格子的位置（根据行列坐标）。
+
+	2.6 setLocalPosition(int row, int column)
+	设置格子的屏幕位置，位置计算公式是 (column * 73 + 8, row * 73 + 8)，格子的大小为 65x65，边距为 8。
+
+	2.7 initAction()
+	格子初始化动画。执行缩放和淡入效果，使格子从无到有的显示出来。
+
+	2.8 moveOnly(int targetRow, int targetColumn)
+	仅移动格子到目标位置，不进行其他动画效果。
+
+	2.9 moveAndClear(int targetRow, int targetColumn)
+	格子移动到目标位置并同时淡出，然后从父节点中移除，执行“清除”动作。
+
+	2.10 moveAndUpdate()
+	执行移动动画、缩放动画，并且更新格子的值和显示内容。
+	在动画结束后通过 CallFunc 让格子显示出来。
+
+	2.11 updateBg()
+	根据当前格子的 _value 更新颜色。
+
+3. 动画效果
 initAction()：通过 ScaleTo 和 FadeIn 动画让格子从小到大，并渐显出现。
-moveAndClear()：通过 MoveTo 和 FadeOut 动画将格子移动并隐藏，最后从父节点移除。
-moveAndUpdate()：通过缩放和淡入的方式，使格子在移动后更新显示并重新显示出来。
-5. 颜色与字体设置
-根据 _value 的不同，格子的背景颜色和字体颜色会发生变化。
-比如，_value == 0 时，背景颜色为 #F7D561，字体颜色为灰色；而 _value == 1 时，背景颜色为 #A6E867，字体颜色为深灰色。
-6. 总结
+
+	moveAndClear()：通过 MoveTo 和 FadeOut 动画将格子移动并隐藏，最后从父节点移除。
+
+	moveAndUpdate()：通过缩放和淡入的方式，使格子在移动后更新显示并重新显示出来。
+
+4. 颜色与字体设置
+根据 _value 的不同，格子的颜色会发生变化。
+比如，_value == 0 时，颜色为 #F7D561；而 _value == 1 时，颜色为 #A6E867。
+
+5. 总结
 Grid 类是该游戏实现中的一个基础组件，用于管理每个格子的显示、移动和动画效果。通过灵活的动画和动态更新，它能实时反映游戏中的格子变化。每个格子不仅仅是一个简单的矩形，它还承载着分数、背景颜色、动画效果等多种信息，是游戏界面中不可或缺的元素。
 
 
 ## 排行榜 SetMenu
 
- 1、通过加载分数vector渲染每个分数的排名情况
+ 通过加载分数vector渲染每个分数的排名情况
  ``` c++
   for (size_t i = 0; i < scores.size(); ++i)
     {
@@ -356,10 +354,15 @@ init()：初始化方法，当前没有任何操作，直接返回 true。可扩
     f->flush();
    ```
 将当前游戏状态保存到本地存储。具体内容包括：
+
 保存当前得分和最佳得分：通过 GameTool::getInstance()->getScore() 和 GameTool::getInstance()->getBestScore() 获取当前得分和最佳得分，并使用 UserDefault 存储。
+
 保存游戏类型：通过 f->setIntegerForKey("type", type) 保存当前游戏模式类型（如经典模式、颜色模式等）。
+
 保存当前游戏是否存在：使用 f->setBoolForKey(... "exits") 标记游戏是否存在（即玩家是否进行了游戏）。
+
 将当前得分列表保存到本地：调用 GameTool::getInstance()->saveScoresToLocal()，此方法负责将历史得分保存到本地存储。
+
 f->flush()：确保所有保存的数据立即写入磁盘。
 
 
@@ -382,20 +385,23 @@ for (int i = 0; i < 4; i++)
 }
 ```
 格子数据保存：循环遍历 4x4 的游戏格子，获取每个格子的值（value）并保存。
-
 如果当前格子为空（temp == nullptr），则将其值设置为 -1。
 否则，通过 temp->getScoreValue() 获取当前格子的得分，并保存到本地。
+
 使用 UserDefault 存储格子的状态：使用一个带有唯一键的存储形式保存每个格子的值和之前的状态。
 格子的值通过键名 "type* 3 + 100 + i * 4 + j" 保存。
 格子之前的状态（上一步的状态）通过键名 "type* 3 + i * 4 + j" 保存。
+
 flush()：每次更新后，调用 flush() 确保所有修改的数据被写入磁盘。
 
 
 2. 总结
 DataConf 类负责游戏数据的存取，主要包括：
 游戏状态保存：保存当前得分、最佳得分、游戏模式和格子状态等信息。
-单例模式：确保只有一个 DataConf 实例，便于管理游戏的全局配置。
-格子状态保存：存储每个格子的值和状态，以便在游戏重启时恢复。
+
+	单例模式：确保只有一个 DataConf 实例，便于管理游戏的全局配置。
+
+	格子状态保存：存储每个格子的值和状态，以便在游戏重启时恢复。
 
 ##  开始界面 StartLayer
 StartLayer 类核心实现文档
