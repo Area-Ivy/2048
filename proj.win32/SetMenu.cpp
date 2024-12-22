@@ -12,17 +12,17 @@ bool SetMenu::init()
     this->setContentSize(Size(300, 400));
     this->setPosition(Vec2(0, 0));
 
-    this->refresh(); // µ÷ÓÃË¢ÐÂ·½·¨
+    this->refresh(); // è°ƒç”¨åˆ·æ–°æ–¹æ³•
 
     return true;
 }
 
 void SetMenu::backToMenu(cocos2d::Ref* sender)
 {
-    // ÊµÏÖ·µ»ØÂß¼­£¬ÀýÈç¹Ø±Õµ±Ç°²Ëµ¥
-    this->setVisible(false); // Òþ²Ø²Ëµ¥
+    // å®žçŽ°è¿”å›žé€»è¾‘ï¼Œä¾‹å¦‚å…³é—­å½“å‰èœå•
+    this->setVisible(false); // éšè—èœå•
 
-    // Èç¹ûÐèÒªÖ±½ÓË¢ÐÂ¿É¼ûÄÚÈÝ
+    // å¦‚æžœéœ€è¦ç›´æŽ¥åˆ·æ–°å¯è§å†…å®¹
     this->refresh();
 }
 void SetMenu::classicCallFunc(Ref* ref)
@@ -47,29 +47,29 @@ void SetMenu::soundCallFunc(Ref* ref)
 
 void SetMenu::refresh()
 {
-    // Çå³ýµ±Ç°½ÚµãÖÐµÄÅÅÐÐ°ñ
+    // æ¸…é™¤å½“å‰èŠ‚ç‚¹ä¸­çš„æŽ’è¡Œæ¦œ
     this->removeAllChildren();
 
-    // ÖØ½¨±³¾°
+    // é‡å»ºèƒŒæ™¯
     auto bg = LayerColor::create(Color4B(30, 30, 30, 200), 300, 400);
     this->addChild(bg);
 
     auto draw = DrawNode::create();
     this->addChild(draw);
 
-    // Title
-    auto title = Label::createWithSystemFont(Grid::G2U("ÅÅÐÐ°ñ"), "Arial", 30);
+    // æ ‡é¢˜
+    auto title = Label::createWithSystemFont(Grid::G2U("æŽ’è¡Œæ¦œ"), "Arial", 30);
     title->setPosition(150, 370);
     this->addChild(title);
 
-    // Divider
+    // åˆ†éš”çº¿
     draw->drawLine(Vec2(10, 350), Vec2(290, 350), Color4F(1, 1, 1, 1));
 
-    // »ñÈ¡²¢Ë¢ÐÂ·ÖÊýÊý¾Ý
+    // èŽ·å–å¹¶åˆ·æ–°åˆ†æ•°æ•°æ®
     auto scores = GameTool::getInstance()->getScores();
     std::sort(scores.rbegin(), scores.rend());
 
-    // ´òÓ¡ÈÕÖ¾
+    // æ‰“å°æ—¥å¿—
     std::string logStr = "Scores: ";
     int yStart = 320;
     int offset = 40;
@@ -87,7 +87,7 @@ void SetMenu::refresh()
     CCLOG("%s", logStr.c_str());
 
     // Back button
-    auto backLabel = Label::createWithSystemFont(Grid::G2U("·µ»Ø"), "Arial", 16);
+    auto backLabel = Label::createWithSystemFont(Grid::G2U("è¿”å›ž"), "Arial", 16);
     auto backItem = MenuItemLabel::create(backLabel, CC_CALLBACK_1(SetMenu::backToMenu, this));
     backItem->setPosition(Vec2(150, 30));
 
