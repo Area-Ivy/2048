@@ -1,7 +1,8 @@
 # 基于 Cocos2d-x 的2048小游戏
 
-### [可执行文件地址(BaiduNetdisk)](https://pan.baidu.com/s/1OjnK47FDsOW-wd1cwBxcLQ?pwd=1234)
+### [可执行文件下载(BaiduNetdisk)](https://pan.baidu.com/s/1OjnK47FDsOW-wd1cwBxcLQ?pwd=1234)
 ### [说明文档](https://github.com/Area-Ivy/2048/blob/main/%E8%AF%B4%E6%98%8E%E6%96%87%E6%A1%A3.md)
+### [测试视频](https://github.com/Area-Ivy/2048/blob/main/%E6%BC%94%E7%A4%BA%E6%B5%8B%E8%AF%95%E8%A7%86%E9%A2%91.mp4)
 
 ## 游戏功能
 
