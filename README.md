@@ -1,5 +1,7 @@
 # 基于 Cocos2d-x 的2048小游戏
 
+### [可执行文件地址(BaiduNetdisk)](https://pan.baidu.com/s/1OjnK47FDsOW-wd1cwBxcLQ?pwd=1234)
+
 ## 游戏功能
 
 ### 基础功能
