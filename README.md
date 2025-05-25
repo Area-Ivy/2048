@@ -44,10 +44,9 @@
 | 2048  | 鲜红色             | (246, 76, 20)  | #F64C14    |
 
 
-# GameScene 核心实现说明
+# 核心实现 GameScene 
 
-
-## 1. 场景创建 (`createScene` 方法)
+1. 场景创建 (`createScene` 方法)
 
 ```cpp
 Scene* GameScene::createScene()
@@ -150,7 +149,7 @@ setLayer->setVisible(false)：设置该层不可见，直到需要时才显示�
 StartLayer::create()：创建开始菜单层，包含新游戏和继续游戏两种选择按钮。
    
 
-## 2. 核心玩法 GameLayer
+## 核心玩法 GameLayer
 
 1. 类结构与初始化
 GameLayer 是游戏的主层，负责游戏的核心逻辑和 UI 渲染。每个游戏格子 (Grid) 存储了它的分数，并能响应用户的操作。
